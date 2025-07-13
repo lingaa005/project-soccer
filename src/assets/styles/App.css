@@ -1,0 +1,136 @@
+/* Main App Theme and Layout */
+:root {
+  --primary-bg: #0a192f;      /* Navy Blue */
+  --secondary-bg: #172a45;   /* Lighter Navy */
+  --text-color: #ccd6f6;      /* Light Grey/Blue */
+  --highlight-color: #64ffda; /* Bright Accent (e.g., for buttons) */
+  --border-color: #233554;
+}
+
+.app-container {
+  min-height: 100vh;
+  background-color: var(--primary-bg);
+  color: var(--text-color);
+  padding: 2rem;
+}
+
+/* --- Component Styles --- */
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--secondary-bg);
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--highlight-color);
+}
+
+/* Buttons */
+.button {
+  background-color: var(--highlight-color);
+  color: var(--primary-bg);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #52e0c0;
+}
+
+/* Input Fields */
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  background-color: #1e3a5f;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
+  box-sizing: border-box; /* Important for width */
+}
+
+.input-field::placeholder {
+  color: #8892b0;
+}
+
+
+/* Auth Form */
+.auth-container {
+  max-width: 400px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Player List and Skills */
+.players-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.player-list {
+  flex: 1;
+  background-color: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.player-list h2 {
+    border-bottom: 2px solid var(--highlight-color);
+    padding-bottom: 0.5rem;
+    margin-top: 0;
+}
+
+.player-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.player-list li {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.player-list li:hover {
+    background-color: #233554;
+}
+
+.player-skills {
+  flex: 2;
+  background-color: var(--secondary-bg);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.skills-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.skills-table th, .skills-table td {
+    border: 1px solid var(--border-color);
+    padding: 0.8rem;
+    text-align: left;
+}
+
+.skills-table th {
+    background-color: #1e3a5f;
+    color: var(--highlight-color);
+}
