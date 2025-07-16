@@ -1,39 +1,76 @@
-import React from 'react';
-const playerSkillsData = {
-1: { name: 'Lionel Messi', skills: { Dribbling: 95, Passing: 92, 'Average Goals': 0.85 } },
-2: { name: 'Cristiano Ronaldo', skills: { Dribbling: 88, Passing: 82, 'Average Goals': 0.95 } },
-3: { name: 'Kevin De Bruyne', skills: { Dribbling: 86, Passing: 94, 'Average Goals': 0.45 } },
+import React, { useState, useEffect } from 'react';
+import { supabase } from '../../api/supabaseClient';
+
+// This component now fetches its own data based on the selected player
+const PlayerSkills = ({ playerId, analysisVersion }) => {
+  const [skills, setSkills] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Only fetch if a playerId is selected
+    if (!playerId) {
+      setSkills([]);
+      return;
+    }
+
+    const fetchSkills = async () => {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('player_skills')
+        .select('skill_name, skill_value')
+        .eq('player_id', playerId);
+      
+      if (error) {
+        console.error('Error fetching skills:', error);
+      } else {
+        setSkills(data);
+      }
+      setLoading(false);
+    };
+
+    fetchSkills();
+  }, [playerId, analysisVersion]); // The key part: This effect re-runs when playerId changes OR when analysisVersion changes
+
+  if (!playerId) {
+    return (
+      <div className="player-skills">
+        <h2>Player Skills</h2>
+        <p>Select a player from the list to see their skills.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="player-skills">
+      {loading ? (
+        <p>Loading Skills...</p>
+      ) : (
+        <>
+          <h2>Skills</h2>
+          {skills.length > 0 ? (
+            <table className="skills-table">
+              <thead>
+                <tr>
+                  <th>Skill</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {skills.map((skill) => (
+                  <tr key={skill.skill_name}>
+                    <td>{skill.skill_name}</td>
+                    <td>{skill.skill_value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No skills data found for this player. A coach can upload a video to generate them.</p>
+          )}
+        </>
+      )}
+    </div>
+  );
 };
-const PlayerSkills = ({ playerId }) => {
-if (!playerId) {
-return (
-<div className="player-skills">
-<h2>Player Skills</h2>
-<p>Select a player from the list to see their skills.</p>
-</div>
-);
-}
-const playerData = playerSkillsData[playerId];
-return (
-<div className="player-skills">
-<h2>{playerData.name}'s Skills</h2>
-<table className="skills-table">
-<thead>
-<tr>
-<th>Skill</th>
-<th>Rating / Value</th>
-</tr>
-</thead>
-<tbody>
-{Object.entries(playerData.skills).map(([skill, value]) => (
-<tr key={skill}>
-<td>{skill}</td>
-<td>{value}</td>
-</tr>
-))}
-</tbody>
-</table>
-</div>
-);
-};
+
 export default PlayerSkills;
